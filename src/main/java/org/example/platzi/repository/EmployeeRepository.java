@@ -28,7 +28,7 @@ public class EmployeeRepository implements Repository<Employee> {
     @Override
     public Employee getById(Integer id) throws SQLException {
         Employee employee = null;
-        try(PreparedStatement myStamt = getConnection().prepareStatement("SELECT * FROM people WHERE person_id ?")){
+        try(PreparedStatement myStamt = getConnection().prepareStatement("SELECT * FROM people WHERE person_id = ?")){
             myStamt.setInt(1,id);
             try(ResultSet myRes = myStamt.executeQuery()) {
                 if (myRes.next()) {
