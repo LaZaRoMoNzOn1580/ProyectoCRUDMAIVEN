@@ -41,18 +41,32 @@ public class EmployeeRepository implements Repository<Employee> {
 
     @Override
     public void save(Employee employee) throws SQLException {
-        String sql = "INSERT INTO people (frist_name, last_name, address, city) VALUES (?,?,?,?)";
-        try(PreparedStatement myStam = getConnection().prepareStatement(sql)){
-            myStam.setString(1,employee.getFirst_name());
-            myStam.setString(2,employee.getLast_name());
-            myStam.setString(3,employee.getAddress());
-            myStam.setString(4,employee.getCity());
-            myStam.executeUpdate();
+
+        String sql;
+
+        if(employee.getId() != null && employee.getId() > 0) {
+            sql = "UPDATE people SET frist_name=?, last_name=?, address=?, city=? WHERE person_id=?";
+        } else {
+            sql = "INSERT INTO people (frist_name, last_name, address, city) VALUES (?,?,?,?)";
         }
+            try (PreparedStatement myStam = getConnection().prepareStatement(sql)) {
+                myStam.setString(1, employee.getFirst_name());
+                myStam.setString(2, employee.getLast_name());
+                myStam.setString(3, employee.getAddress());
+                myStam.setString(4, employee.getCity());
+                if(employee.getId() != null && employee.getId() > 0){
+                    myStam.setInt(5,employee.getId());
+                }
+                myStam.executeUpdate();
+            }
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id) throws SQLException {
+        try(PreparedStatement myStamt = getConnection().prepareStatement("DELETE FROM people WHERE person_id=?")) {
+            myStamt.setInt(1,id);
+            myStamt.executeUpdate();
+        }
 
     }
 

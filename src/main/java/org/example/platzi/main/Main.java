@@ -17,15 +17,10 @@ public class Main {
             System.out.println("---Listando------");
             repository.findAll().forEach(System.out::println);
 
-            System.out.println("-----INSERTANDO un empleado-----");
-            Employee employee = new Employee();
-            employee.setFirst_name("Karen");
-            employee.setLast_name("Mendez");
-            employee.setAddress("Calle 69");
-            employee.setCity("Matanzas");
-            repository.save(employee);
 
-            System.out.println("--Nuevo empleado Insertado--");
+            repository.delete(6);
+
+            System.out.println("--Empleado Eliminado--");
             repository.findAll().forEach(System.out::println);
 
         }
